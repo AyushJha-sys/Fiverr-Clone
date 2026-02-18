@@ -1,0 +1,16 @@
+/* RESET DEFAULT VITE LIMITS */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  width: 100%;
+}
+
+#root {
+  width: 100%;
+}
