@@ -1,10 +1,8 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import GigDetails from "./pages/GigDetails";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 
 function ProtectedRoute({ children }) {
 
@@ -17,18 +15,20 @@ function ProtectedRoute({ children }) {
   return children;
 }
 
-function App() {
+export default function App() {
+
+  const token = localStorage.getItem("token");
 
   return (
-
     <>
-      <Navbar />
+      {token && <Navbar />}
 
       <Routes>
 
         <Route path="/login" element={<Login />} />
 
-        <Route path="/"
+        <Route
+          path="/"
           element={
             <ProtectedRoute>
               <Home />
@@ -36,7 +36,8 @@ function App() {
           }
         />
 
-        <Route path="/gig/:id"
+        <Route
+          path="/gig/:id"
           element={
             <ProtectedRoute>
               <GigDetails />
@@ -45,11 +46,6 @@ function App() {
         />
 
       </Routes>
-
-      <Footer />
     </>
-
   );
 }
-
-export default App;

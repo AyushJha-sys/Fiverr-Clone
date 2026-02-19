@@ -3,62 +3,83 @@ import { useState } from "react";
 
 export default function Login(){
 
-const [email,setEmail]=useState("");
-const [password,setPassword]=useState("");
+  const [email,setEmail]=useState("");
+  const [password,setPassword]=useState("");
+  const [error,setError]=useState("");
 
-const login = async()=>{
+  const handleLogin = async()=>{
 
-const res = await axios.post(
-"http://localhost:5000/api/auth/login",
-{email,password}
-);
+    try{
 
-localStorage.setItem("token",res.data.token);
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/login`,
+        { email, password }
+      );
 
-window.location="/";
+      localStorage.setItem("token",res.data.token);
 
-};
+      window.location="/";
 
-return(
+    }
+    catch(err){
 
-<div style={{
-display:"flex",
-justifyContent:"center",
-alignItems:"center",
-height:"100vh"
-}}>
+      console.error("Login error:", err);
 
-<div style={{
-border:"1px solid #ddd",
-padding:"40px",
-borderRadius:"10px"
-}}>
+      setError("Invalid email or password");
 
-<h2>Login</h2>
+    }
+  };
 
-<input
-placeholder="Email"
-onChange={e=>setEmail(e.target.value)}
-/>
+  return(
 
-<br/>
+    <div style={{
+      height:"100vh",
+      display:"flex",
+      justifyContent:"center",
+      alignItems:"center",
+      background:"#0f0f0f"
+    }}>
 
-<input
-placeholder="Password"
-type="password"
-onChange={e=>setPassword(e.target.value)}
-/>
+      <div style={{
+        background:"#111",
+        padding:"40px",
+        borderRadius:"10px",
+        color:"white",
+        minWidth:"300px"
+      }}>
 
-<br/>
+        <h2>Login</h2>
 
-<button onClick={login}>
-Login
-</button>
+        <input
+          placeholder="Email"
+          onChange={e=>setEmail(e.target.value)}
+          style={{display:"block",margin:"10px 0",width:"100%"}}
+        />
 
-</div>
+        <input
+          placeholder="Password"
+          type="password"
+          onChange={e=>setPassword(e.target.value)}
+          style={{display:"block",margin:"10px 0",width:"100%"}}
+        />
 
-</div>
+        <button 
+          onClick={handleLogin}
+          style={{
+            width:"100%",
+            padding:"10px",
+            background:"#00ffc8",
+            border:"none",
+            cursor:"pointer"
+          }}
+        >
+          Login
+        </button>
 
-);
+        {error && <p style={{color:"red"}}>{error}</p>}
 
+      </div>
+
+    </div>
+  );
 }

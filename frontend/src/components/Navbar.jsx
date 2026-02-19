@@ -2,6 +2,13 @@ import { Link } from "react-router-dom";
 
 export default function Navbar(){
 
+  const logout = ()=>{
+
+    localStorage.removeItem("token");
+
+    window.location="/login";
+  };
+
   return(
 
     <div style={{
@@ -13,14 +20,16 @@ export default function Navbar(){
 
       <Link to="/" style={{
         color:"#00ffc8",
-        fontSize:"22px",
         textDecoration:"none"
       }}>
         FreelanceHub
       </Link>
 
+      <button onClick={logout}>
+        Logout
+      </button>
+
     </div>
 
   );
-
 }
