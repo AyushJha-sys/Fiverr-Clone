@@ -1,74 +1,57 @@
-import Navbar from "./components/Navbar";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import Home from "./pages/Home";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Profile from "./pages/Profile";
-import Dashboard from "./pages/Dashboard";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
+import Home from "./pages/Home";
 import GigDetails from "./pages/GigDetails";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
-import { Routes, Route } from "react-router-dom";
-import { useState } from "react";
+function ProtectedRoute({ children }) {
+
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    return <Navigate to="/login" />;
+  }
+
+  return children;
+}
 
 function App() {
 
-  const [loggedIn, setLoggedIn] = useState(
-    localStorage.getItem("token") ? true : false
-  );
-
-  const logout = () => {
-
-    localStorage.removeItem("token");
-    setLoggedIn(false);
-
-  };
-
   return (
 
-    <div>
+    <BrowserRouter>
 
-      <Navbar loggedIn={loggedIn} logout={logout} />
+      <Navbar />
 
       <Routes>
 
-        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
 
-        <Route path="/login"
-          element={<Login setLoggedIn={setLoggedIn} />}
-        />
-
-        <Route path="/register"
-          element={<Register />}
-        />
-
-        <Route path="/profile"
-          element={<Profile />}
-        />
-
-        <Route path="/dashboard"
-          element={<Dashboard />}
-        />
-
-        <Route path="/about"
-          element={<About />}
-        />
-
-        <Route path="/contact"
-          element={<Contact />}
+        <Route path="/"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
         />
 
         <Route path="/gig/:id"
-          element={<GigDetails />}
+          element={
+            <ProtectedRoute>
+              <GigDetails />
+            </ProtectedRoute>
+          }
         />
 
       </Routes>
 
-    </div>
+      <Footer />
+
+    </BrowserRouter>
 
   );
-
 }
 
 export default App;

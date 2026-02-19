@@ -1,4 +1,4 @@
-const API = "http://localhost:5000/api";
+const API = "https://fiverr-clone-backend-l1zx.onrender.com";
 
 export const registerUser = async (data) => {
 

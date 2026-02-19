@@ -1,80 +1,50 @@
 import { useEffect, useState } from "react";
-import { getGigs } from "../api/api";
+import axios from "axios";
 import GigCard from "../components/GigCard";
 
-function Home() {
+export default function Home(){
 
-  const [gigs, setGigs] = useState([]);
-  const [loading, setLoading] = useState(true);
+const [gigs,setGigs]=useState([]);
 
-  useEffect(() => {
+useEffect(()=>{
 
-    const fetchGigs = async () => {
+axios.get("http://localhost:5000/api/gigs")
+.then(res=>setGigs(res.data));
 
-      try {
+},[]);
 
-        const data = await getGigs();
+return(
 
-        setGigs(data);
+<div>
 
-      } catch (error) {
+<div style={{
+padding:"50px",
+background:"#f5f5f5"
+}}>
 
-        console.error("Failed to load gigs:", error);
+<h1>Find the perfect freelance service</h1>
 
-      } finally {
+<p>
+FreelanceHub connects businesses with talented freelancers worldwide.
+</p>
 
-        setLoading(false);
+</div>
 
-      }
+<div style={{
+display:"grid",
+gridTemplateColumns:"repeat(3,1fr)",
+gap:"20px",
+padding:"40px"
+}}>
 
-    };
+{gigs.map(gig=>(
+<GigCard gig={gig} key={gig._id}/>
+))}
 
-    fetchGigs();
+</div>
 
-  }, []);
+</div>
 
-  if (loading)
-    return (
-      <div style={{ padding: "40px" }}>
-        <h2>Loading gigs...</h2>
-      </div>
-    );
-
-  return (
-
-    <div style={{ padding: "40px" }}>
-
-      <h1>Website Development</h1>
-
-      <p>Create, build, and develop your website</p>
-
-      <div style={{
-        display: "flex",
-        flexWrap: "wrap",
-        gap: "20px",
-        marginTop: "20px"
-      }}>
-
-        {gigs.length > 0 ? (
-
-          gigs.map((gig) => (
-
-            <GigCard key={gig._id} gig={gig} />
-
-          ))
-
-        ) : (
-
-          <p>No gigs available</p>
-
-        )}
-
-      </div>
-
-    </div>
-
-  );
+);
 
 }
-
-export default Home;

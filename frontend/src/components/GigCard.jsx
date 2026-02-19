@@ -1,57 +1,50 @@
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import GigCard from "../components/GigCard";
 
-function GigCard({ gig }) {
+export default function Home(){
 
-  if (!gig)
-    return null;
+const [gigs,setGigs]=useState([]);
 
-  return (
+useEffect(()=>{
 
-    <Link
-      to={`/gig/${gig._id}`}
-      style={{
-        textDecoration: "none",
-        color: "black"
-      }}
-    >
+axios.get("http://localhost:5000/api/gigs")
+.then(res=>setGigs(res.data));
 
-      <div style={{
-        width: "280px",
-        border: "1px solid #ddd",
-        borderRadius: "8px",
-        overflow: "hidden",
-        background: "white",
-        cursor: "pointer"
-      }}>
+},[]);
 
-        <img
-          src={gig.image || "https://picsum.photos/300/200"}
-          alt="gig"
-          style={{
-            width: "100%",
-            height: "180px",
-            objectFit: "cover"
-          }}
-        />
+return(
 
-        <div style={{ padding: "15px" }}>
+<div>
 
-          <h3>{gig.title}</h3>
+<div style={{
+padding:"50px",
+background:"#f5f5f5"
+}}>
 
-          <p>{gig.desc}</p>
+<h1>Find the perfect freelance service</h1>
 
-          <h4 style={{ color: "#1dbf73" }}>
-            ₹{gig.price}
-          </h4>
+<p>
+FreelanceHub connects businesses with talented freelancers worldwide.
+</p>
 
-        </div>
+</div>
 
-      </div>
+<div style={{
+display:"grid",
+gridTemplateColumns:"repeat(3,1fr)",
+gap:"20px",
+padding:"40px"
+}}>
 
-    </Link>
+{gigs.map(gig=>(
+<GigCard gig={gig} key={gig._id}/>
+))}
 
-  );
+</div>
+
+</div>
+
+);
 
 }
-
-export default GigCard;

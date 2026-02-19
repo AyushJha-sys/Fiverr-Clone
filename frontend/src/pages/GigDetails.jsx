@@ -1,69 +1,58 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
-function GigDetails() {
+export default function GigDetails(){
 
-  const { id } = useParams();
+const {id}=useParams();
 
-  const [gig, setGig] = useState(null);
+const [gig,setGig]=useState(null);
 
-  useEffect(() => {
+useEffect(()=>{
 
-    const loadGig = async () => {
+const fetchGig = async () => {
 
-      try {
+  try{
 
-        const res = await fetch(
-          `http://localhost:5000/api/gigs`
-        );
+    const res = await axios.get(
+      `http://localhost:5000/api/gigs/${id}`
+    );
 
-        const data = await res.json();
+    setGig(res.data);
 
-        const foundGig = data.find(g => g._id === id);
+  }
+  catch(err){
 
-        setGig(foundGig);
+    console.error(err);
 
-      } catch (error) {
+  }
 
-        console.error(error);
+};
 
-      }
+fetchGig();
 
-    };
+},[id]);
 
-    loadGig();
+if(!gig) return <div>Loading...</div>;
 
-  }, [id]);
+return(
 
-  if (!gig)
-    return <h2 style={{ padding: "40px" }}>Loading...</h2>;
+<div style={{padding:"40px"}}>
 
-  return (
+<h1>{gig.title}</h1>
 
-    <div style={{ padding: "40px" }}>
+<img src={gig.image} width="400"/>
 
-      <h1>{gig.title}</h1>
+<p>{gig.description}</p>
 
-      <img
-        src={gig.image || "https://picsum.photos/500/300"}
-        style={{
-          width: "500px",
-          marginTop: "20px"
-        }}
-      />
+<h2>₹{gig.price}</h2>
 
-      <p style={{ marginTop: "20px" }}>
-        {gig.desc}
-      </p>
+<h3>Scan to Pay</h3>
 
-      <h2 style={{ color: "#1dbf73" }}>
-        ₹{gig.price}
-      </h2>
+<img src={gig.qrCode} width="200"/>
 
-    </div>
+</div>
 
-  );
+);
 
 }
-
-export default GigDetails;

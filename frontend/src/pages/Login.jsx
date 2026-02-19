@@ -1,84 +1,64 @@
+import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
-function Login() {
+export default function Login(){
 
-  const navigate = useNavigate();
+const [email,setEmail]=useState("");
+const [password,setPassword]=useState("");
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+const login = async()=>{
 
-  const login = async () => {
+const res = await axios.post(
+"http://localhost:5000/api/auth/login",
+{email,password}
+);
 
-    try {
+localStorage.setItem("token",res.data.token);
 
-      const res = await fetch(
-        "http://localhost:5000/api/auth/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            username,
-            password
-          })
-        }
-      );
+window.location="/";
 
-      const data = await res.json();
+};
 
-      if (data.token) {
+return(
 
-        localStorage.setItem("token", data.token);
+<div style={{
+display:"flex",
+justifyContent:"center",
+alignItems:"center",
+height:"100vh"
+}}>
 
-        alert("Login successful");
+<div style={{
+border:"1px solid #ddd",
+padding:"40px",
+borderRadius:"10px"
+}}>
 
-        navigate("/");
+<h2>Login</h2>
 
-      } else {
+<input
+placeholder="Email"
+onChange={e=>setEmail(e.target.value)}
+/>
 
-        alert("Login failed");
+<br/>
 
-      }
+<input
+placeholder="Password"
+type="password"
+onChange={e=>setPassword(e.target.value)}
+/>
 
-    } catch (error) {
+<br/>
 
-      console.error(error);
+<button onClick={login}>
+Login
+</button>
 
-    }
+</div>
 
-  };
+</div>
 
-  return (
-
-    <div style={{ padding: "40px" }}>
-
-      <h1>Login</h1>
-
-      <input
-        placeholder="Username"
-        onChange={(e) => setUsername(e.target.value)}
-      />
-
-      <br /><br />
-
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-
-      <br /><br />
-
-      <button onClick={login}>
-        Login
-      </button>
-
-    </div>
-
-  );
+);
 
 }
-
-export default Login;
