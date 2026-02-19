@@ -4,47 +4,59 @@ import GigCard from "../components/GigCard";
 
 export default function Home(){
 
-const [gigs,setGigs]=useState([]);
+  const [gigs,setGigs]=useState([]);
 
-useEffect(()=>{
+  useEffect(()=>{
 
-axios.get("http://localhost:5000/api/gigs")
-.then(res=>setGigs(res.data));
+    const fetchGigs = async()=>{
 
-},[]);
+      try{
 
-return(
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/gigs`
+        );
 
-<div>
+        setGigs(res.data);
 
-<div style={{
-padding:"50px",
-background:"#f5f5f5"
-}}>
+      }
+      catch(err){
+        console.error(err);
+      }
 
-<h1>Find the perfect freelance service</h1>
+    };
 
-<p>
-FreelanceHub connects businesses with talented freelancers worldwide.
-</p>
+    fetchGigs();
 
-</div>
+  },[]);
 
-<div style={{
-display:"grid",
-gridTemplateColumns:"repeat(3,1fr)",
-gap:"20px",
-padding:"40px"
-}}>
+  return(
 
-{gigs.map(gig=>(
-<GigCard gig={gig} key={gig._id}/>
-))}
+    <div style={{
+      background:"#0f0f0f",
+      minHeight:"100vh",
+      padding:"40px"
+    }}>
 
-</div>
+      <h1 style={{
+        color:"#00ffc8"
+      }}>
+        Explore Freelance Services
+      </h1>
 
-</div>
+      <div style={{
+        display:"grid",
+        gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",
+        gap:"20px",
+        marginTop:"30px"
+      }}>
 
-);
+        {gigs.map(gig=>(
+          <GigCard key={gig._id} gig={gig}/>
+        ))}
 
+      </div>
+
+    </div>
+
+  );
 }
