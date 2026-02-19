@@ -1,40 +1,41 @@
-import { Link } from "react-router-dom";
+export default function GigCard({ gig }){
 
-const fallback =
-"https://images.unsplash.com/photo-1559028012-481c04fa702d?q=80&w=800";
+  return(
 
-export default function GigCard({ gig }) {
+    <div style={{
+      background:"#111",
+      borderRadius:"10px",
+      overflow:"hidden"
+    }}>
 
-  const imageUrl = gig.image && gig.image.trim() !== ""
-    ? gig.image
-    : fallback;
+      <img
+        src={gig.image}
+        style={{
+          width:"100%",
+          height:"200px",
+          objectFit:"cover"
+        }}
+      />
 
-  return (
-    <Link to={`/gig/${gig._id}`} style={{ textDecoration: "none" }}>
-      <div style={{
-        background: "#111",
-        borderRadius: "16px",
-        overflow: "hidden",
-        boxShadow: "0 0 20px rgba(0,255,200,0.15)",
-        transition: "0.3s"
-      }}>
+      <div style={{padding:"15px",color:"white"}}>
 
-        <img
-          src={imageUrl}
-          alt={gig.title}
-          style={{
-            width: "100%",
-            height: "200px",
-            objectFit: "cover"
-          }}
-        />
+        <h3>{gig.title}</h3>
 
-        <div style={{ padding: "15px", color: "white" }}>
-          <h3>{gig.title}</h3>
-          <p style={{ color: "#00ffc8" }}>₹{gig.price}</p>
-        </div>
+        <p style={{
+          color:"#aaa",
+          height:"60px",
+          overflow:"hidden"
+        }}>
+          {gig.description}
+        </p>
+
+        <h4 style={{color:"#00ffc8"}}>
+          ₹{gig.price}
+        </h4>
 
       </div>
-    </Link>
+
+    </div>
+
   );
 }

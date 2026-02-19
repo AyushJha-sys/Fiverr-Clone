@@ -1,123 +1,49 @@
 import { useState } from "react";
+import axios from "axios";
 
-function Dashboard() {
+export default function Dashboard(){
 
-  const [title, setTitle] = useState("");
-  const [desc, setDesc] = useState("");
-  const [price, setPrice] = useState("");
-  const [image, setImage] = useState("");
+  const [title,setTitle]=useState("");
+  const [description,setDescription]=useState("");
+  const [price,setPrice]=useState("");
+  const [image,setImage]=useState("");
+  const [qrCode,setQrCode]=useState("");
 
-  const createGig = async () => {
+  const createGig = async()=>{
 
-    try {
+    await axios.post(
+      `${import.meta.env.VITE_API_URL}/gigs`,
+      { title, description, price, image, qrCode }
+    );
 
-      const token = localStorage.getItem("token");
-
-      const res = await fetch(
-        "http://localhost:5000/api/gigs",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`   // ✅ FIXED
-          },
-          body: JSON.stringify({
-            title,
-            desc,
-            price,
-            image
-          })
-        }
-      );
-
-      const data = await res.json();
-
-      if (!res.ok) {
-
-        console.error(data);
-
-        alert("Backend rejected request");
-
-        return;
-
-      }
-
-      alert("Gig created successfully");
-
-      console.log(data);
-
-    } catch (error) {
-
-      console.error(error);
-
-      alert("Error creating gig");
-
-    }
-
+    alert("Gig created");
   };
 
-  const handleImage = (e) => {
+  return(
 
-    const file = e.target.files[0];
+    <div style={{padding:"40px"}}>
 
-    if (!file) return;
+      <h2>Create Gig</h2>
 
-    const reader = new FileReader();
+      <input placeholder="Title"
+        onChange={e=>setTitle(e.target.value)} />
 
-    reader.onloadend = () => {
+      <input placeholder="Description"
+        onChange={e=>setDescription(e.target.value)} />
 
-      setImage(reader.result);
+      <input placeholder="Price"
+        onChange={e=>setPrice(e.target.value)} />
 
-    };
+      <input placeholder="Image URL"
+        onChange={e=>setImage(e.target.value)} />
 
-    reader.readAsDataURL(file);
-
-  };
-
-  return (
-
-    <div style={{ padding: "40px" }}>
-
-      <h1>Dashboard</h1>
-
-      <h3>Create New Gig</h3>
-
-      <input
-        placeholder="Gig title"
-        onChange={(e) => setTitle(e.target.value)}
-      />
-
-      <br /><br />
-
-      <input
-        placeholder="Gig description"
-        onChange={(e) => setDesc(e.target.value)}
-      />
-
-      <br /><br />
-
-      <input
-        placeholder="Price"
-        onChange={(e) => setPrice(e.target.value)}
-      />
-
-      <br /><br />
-
-      <input
-        type="file"
-        onChange={handleImage}
-      />
-
-      <br /><br />
+      <input placeholder="QR Code URL"
+        onChange={e=>setQrCode(e.target.value)} />
 
       <button onClick={createGig}>
-        Create Gig
+        Create
       </button>
 
     </div>
-
   );
-
 }
-
-export default Dashboard;

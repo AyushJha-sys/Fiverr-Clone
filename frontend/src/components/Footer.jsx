@@ -1,36 +1,38 @@
 export default function Footer(){
 
-return(
+  return(
 
-<div style={{
-background:"#222",
-color:"white",
-padding:"30px",
-marginTop:"50px"
-}}>
+    <footer style={{
+      background:"#000",
+      padding:"40px",
+      marginTop:"50px",
+      textAlign:"center"
+    }}>
 
-<h3>FreelanceHub</h3>
+      <h3 style={{color:"#00ffc8"}}>
+        Ayush Jha Freelance Marketplace
+      </h3>
 
-<p>Created by Ayush Jha</p>
+      <p style={{color:"#aaa"}}>
+        Connect with me
+      </p>
 
-<a href="https://linkedin.com" style={{color:"white"}}>
-LinkedIn
-</a>
+      <div style={{display:"flex",gap:"20px",justifyContent:"center"}}>
 
-<br/>
+        <a href="https://linkedin.com/in/YOUR-ID" target="_blank">
+          LinkedIn
+        </a>
 
-<a href="https://github.com" style={{color:"white"}}>
-GitHub
-</a>
+        <a href="https://github.com/YOUR-ID" target="_blank">
+          GitHub
+        </a>
 
-<br/>
+        <a href="https://instagram.com/YOUR-ID" target="_blank">
+          Instagram
+        </a>
 
-<a href="https://instagram.com" style={{color:"white"}}>
-Instagram
-</a>
+      </div>
 
-</div>
-
-);
-
+    </footer>
+  );
 }

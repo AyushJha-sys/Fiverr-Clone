@@ -1,31 +1,22 @@
-function About() {
+export default function About(){
 
-  return (
+return(
 
-    <div style={{ padding: "40px" }}>
+<div style={{padding:"40px",color:"white"}}>
 
-      <h1>About Us</h1>
+<h1>About Our Platform</h1>
 
-      <p>
-        Welcome to Fiverr Clone. This platform allows users to buy and sell freelance services
-        including website development, design, and digital marketing.
-      </p>
+<p>
 
-      <p>
-        This project is built using MERN Stack:
-      </p>
+This freelance marketplace allows clients to hire professionals
+securely and freelancers to earn from their skills.
 
-      <ul>
-        <li>MongoDB</li>
-        <li>Express.js</li>
-        <li>React.js</li>
-        <li>Node.js</li>
-      </ul>
+Features include secure payments, gig creation,
+and dashboard management.
 
-    </div>
+</p>
 
-  );
+</div>
 
+);
 }
-
-export default About;
