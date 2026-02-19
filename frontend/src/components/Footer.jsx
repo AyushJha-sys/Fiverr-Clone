@@ -19,15 +19,15 @@ export default function Footer(){
 
       <div style={{display:"flex",gap:"20px",justifyContent:"center"}}>
 
-        <a href="https://linkedin.com/in/YOUR-ID" target="_blank">
+        <a href="https://www.linkedin.com/in/ayush-jha-457144252" target="_blank">
           LinkedIn
         </a>
 
-        <a href="https://github.com/YOUR-ID" target="_blank">
+        <a href="https://github.com/AyushJha-sys" target="_blank">
           GitHub
         </a>
 
-        <a href="https://instagram.com/YOUR-ID" target="_blank">
+        <a href="https://www.instagram.com/ayush_kashyap.__?igsh=cjd4YWZlMWtrcDJ2" target="_blank">
           Instagram
         </a>
 
