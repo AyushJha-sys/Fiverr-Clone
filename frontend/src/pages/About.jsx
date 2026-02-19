@@ -1,22 +1,17 @@
 export default function About(){
 
-return(
+  return(
 
-<div style={{padding:"40px",color:"white"}}>
+    <div style={{padding:"40px",color:"white"}}>
 
-<h1>About Our Platform</h1>
+      <h1>About Me</h1>
 
-<p>
+      <p>
+        I am Ayush Jha, a Full Stack Developer.
+        I built this freelance marketplace using React, Node.js, MongoDB, and modern tools.
+      </p>
 
-This freelance marketplace allows clients to hire professionals
-securely and freelancers to earn from their skills.
+    </div>
 
-Features include secure payments, gig creation,
-and dashboard management.
-
-</p>
-
-</div>
-
-);
+  );
 }

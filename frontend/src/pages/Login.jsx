@@ -3,31 +3,50 @@ import { useState } from "react";
 
 export default function Login(){
 
+  const [isRegister,setIsRegister]=useState(false);
+
+  const [name,setName]=useState("");
   const [email,setEmail]=useState("");
   const [password,setPassword]=useState("");
-  const [error,setError]=useState("");
 
-  const handleLogin = async()=>{
+  const [message,setMessage]=useState("");
+
+  const handleSubmit = async()=>{
 
     try{
 
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/login`,
-        { email, password }
-      );
+      if(isRegister){
 
-      localStorage.setItem("token",res.data.token);
+        await axios.post(
+          `${import.meta.env.VITE_API_URL}/auth/register`,
+          { name, email, password }
+        );
 
-      window.location="/";
+        setMessage("Registration successful. Please login.");
+        setIsRegister(false);
+
+      }
+      else{
+
+        const res = await axios.post(
+          `${import.meta.env.VITE_API_URL}/auth/login`,
+          { email, password }
+        );
+
+        localStorage.setItem("token",res.data.token);
+
+        window.location="/";
+
+      }
 
     }
     catch(err){
 
-      console.error("Login error:", err);
-
-      setError("Invalid email or password");
+      console.error(err);
+      setMessage("Something went wrong");
 
     }
+
   };
 
   return(
@@ -37,34 +56,46 @@ export default function Login(){
       display:"flex",
       justifyContent:"center",
       alignItems:"center",
-      background:"#0f0f0f"
+      background:"#0f0f0f",
+      color:"white"
     }}>
 
       <div style={{
         background:"#111",
         padding:"40px",
         borderRadius:"10px",
-        color:"white",
-        minWidth:"300px"
+        width:"300px"
       }}>
 
-        <h2>Login</h2>
+        <h2>
+          {isRegister ? "Register" : "Login"}
+        </h2>
+
+        {isRegister && (
+
+          <input
+            placeholder="Name"
+            onChange={e=>setName(e.target.value)}
+            style={{width:"100%",marginBottom:"10px"}}
+          />
+
+        )}
 
         <input
           placeholder="Email"
           onChange={e=>setEmail(e.target.value)}
-          style={{display:"block",margin:"10px 0",width:"100%"}}
+          style={{width:"100%",marginBottom:"10px"}}
         />
 
         <input
-          placeholder="Password"
           type="password"
+          placeholder="Password"
           onChange={e=>setPassword(e.target.value)}
-          style={{display:"block",margin:"10px 0",width:"100%"}}
+          style={{width:"100%",marginBottom:"10px"}}
         />
 
-        <button 
-          onClick={handleLogin}
+        <button
+          onClick={handleSubmit}
           style={{
             width:"100%",
             padding:"10px",
@@ -73,13 +104,39 @@ export default function Login(){
             cursor:"pointer"
           }}
         >
-          Login
+          {isRegister ? "Register" : "Login"}
         </button>
 
-        {error && <p style={{color:"red"}}>{error}</p>}
+        <p style={{marginTop:"10px"}}>
+
+          {isRegister
+            ? "Already have an account?"
+            : "New user?"
+          }
+
+          <span
+            onClick={()=>setIsRegister(!isRegister)}
+            style={{
+              color:"#00ffc8",
+              cursor:"pointer",
+              marginLeft:"5px"
+            }}
+          >
+            {isRegister ? "Login" : "Register"}
+          </span>
+
+        </p>
+
+        {message && (
+          <p style={{color:"orange"}}>
+            {message}
+          </p>
+        )}
 
       </div>
 
     </div>
+
   );
+
 }
