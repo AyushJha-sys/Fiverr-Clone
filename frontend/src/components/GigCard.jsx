@@ -1,50 +1,58 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import GigCard from "../components/GigCard";
+import { Link } from "react-router-dom";
 
-export default function Home(){
+export default function GigCard({ gig }) {
 
-const [gigs,setGigs]=useState([]);
+  return (
+    <Link to={`/gig/${gig._id}`} style={{ textDecoration: "none" }}>
 
-useEffect(()=>{
+      <div style={{
+        background: "#111",
+        borderRadius: "16px",
+        overflow: "hidden",
+        boxShadow: "0 0 20px rgba(0,255,200,0.15)",
+        transition: "0.3s",
+        cursor: "pointer"
+      }}
 
-axios.get("http://localhost:5000/api/gigs")
-.then(res=>setGigs(res.data));
+      onMouseEnter={e=>{
+        e.currentTarget.style.transform="scale(1.03)";
+        e.currentTarget.style.boxShadow="0 0 30px rgba(0,255,200,0.4)";
+      }}
 
-},[]);
+      onMouseLeave={e=>{
+        e.currentTarget.style.transform="scale(1)";
+        e.currentTarget.style.boxShadow="0 0 20px rgba(0,255,200,0.15)";
+      }}
 
-return(
+      >
 
-<div>
+        <img
+          src={gig.image}
+          alt={gig.title}
+          style={{
+            width: "100%",
+            height: "200px",
+            objectFit: "cover"
+          }}
+        />
 
-<div style={{
-padding:"50px",
-background:"#f5f5f5"
-}}>
+        <div style={{ padding: "15px", color: "white" }}>
 
-<h1>Find the perfect freelance service</h1>
+          <h3 style={{ margin: "0 0 10px 0" }}>
+            {gig.title}
+          </h3>
 
-<p>
-FreelanceHub connects businesses with talented freelancers worldwide.
-</p>
+          <p style={{
+            color: "#00ffc8",
+            fontWeight: "bold"
+          }}>
+            ₹{gig.price}
+          </p>
 
-</div>
+        </div>
 
-<div style={{
-display:"grid",
-gridTemplateColumns:"repeat(3,1fr)",
-gap:"20px",
-padding:"40px"
-}}>
+      </div>
 
-{gigs.map(gig=>(
-<GigCard gig={gig} key={gig._id}/>
-))}
-
-</div>
-
-</div>
-
-);
-
+    </Link>
+  );
 }

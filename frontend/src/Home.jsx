@@ -1,66 +1,54 @@
-import GigCard from "./GigCard";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import GigCard from "../components/GigCard";
 
-function Home() {
+export default function Home() {
 
-  const [gigs,setGigs]=useState([]);
+  const [gigs, setGigs] = useState([]);
 
-  useEffect(()=>{
+  useEffect(() => {
 
-    fetch("http://localhost:5000/api/gigs")
-      .then(res=>res.json())
-      .then(data=>setGigs(data));
+    axios.get(`${import.meta.env.VITE_API_URL}/gigs`)
+      .then(res => setGigs(res.data))
+      .catch(err => console.log(err));
 
-  },[]);
+  }, []);
 
-  return(
+  return (
 
-    <div>
+    <div style={{
+      background: "linear-gradient(135deg,#0f0f0f,#1a1a2e)",
+      minHeight: "100vh",
+      padding: "40px"
+    }}>
 
-      {/* HERO */}
+      <h1 style={{
+        color: "#00ffc8",
+        fontSize: "42px",
+        marginBottom: "10px"
+      }}>
+        Freelance Marketplace
+      </h1>
+
+      <p style={{
+        color: "#aaa",
+        marginBottom: "40px"
+      }}>
+        Hire elite freelancers. Pay securely. Scale faster.
+      </p>
+
       <div style={{
-        background:"#f5f5f5",
-        padding:"40px"
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
+        gap: "25px"
       }}>
 
-        <h1>Website Development</h1>
-
-        <p>Create, build, and develop your website</p>
-
-      </div>
-
-      {/* FILTER BAR */}
-      <div style={{
-        padding:"20px",
-        display:"flex",
-        gap:"10px"
-      }}>
-
-        <button>Service Options</button>
-        <button>Seller Details</button>
-        <button>Budget</button>
-        <button>Delivery Time</button>
-
-      </div>
-
-      {/* GIG GRID */}
-      <div style={{
-        display:"flex",
-        flexWrap:"wrap",
-        gap:"20px",
-        padding:"20px"
-      }}>
-
-        {gigs.map(gig=>(
-          <GigCard key={gig._id} gig={gig}/>
+        {gigs.map(gig => (
+          <GigCard gig={gig} key={gig._id} />
         ))}
 
       </div>
 
     </div>
-
   );
-
 }
-
-export default Home;

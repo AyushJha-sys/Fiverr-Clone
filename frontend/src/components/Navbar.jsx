@@ -1,33 +1,26 @@
 import { Link } from "react-router-dom";
 
-export default function Navbar() {
+export default function Navbar(){
 
-  const logout = () => {
-
-    localStorage.removeItem("token");
-    window.location = "/login";
-
-  };
-
-  return (
+  return(
 
     <div style={{
-      display:"flex",
-      justifyContent:"space-between",
+      background:"#000",
       padding:"15px 40px",
-      background:"#1dbf73",
-      color:"white"
+      display:"flex",
+      justifyContent:"space-between"
     }}>
 
-      <Link to="/" style={{color:"white"}}>
+      <Link to="/" style={{
+        color:"#00ffc8",
+        fontSize:"22px",
+        textDecoration:"none"
+      }}>
         FreelanceHub
       </Link>
-
-      <button onClick={logout}>
-        Logout
-      </button>
 
     </div>
 
   );
+
 }
