@@ -11,7 +11,16 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+/* FIXED CORS CONFIGURATION */
+app.use(cors({
+  origin: [
+    "https://fiverr-clone-81s74oaoy-ayushjha-sys-projects.vercel.app",
+    "http://localhost:5173"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -26,6 +35,6 @@ mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("MongoDB Connected"))
 .catch(err => console.log(err));
 
-app.listen(process.env.PORT, () => {
-  console.log("Server running on port", process.env.PORT);
+app.listen(process.env.PORT || 5000, () => {
+  console.log("Server running");
 });
