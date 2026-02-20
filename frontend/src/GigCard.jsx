@@ -1,51 +1,43 @@
 import { Link } from "react-router-dom";
 
-function GigCard({ gig }) {
+export default function GigCard({ gig }) {
+
+  const fallback =
+    "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500";
 
   return (
 
     <Link to={`/gig/${gig._id}`} style={{textDecoration:"none"}}>
 
       <div style={{
-        width:"280px",
-        border:"1px solid #ddd",
-        borderRadius:"8px",
-        overflow:"hidden",
-        background:"white",
-        transition:"0.3s"
+        background:"#111",
+        color:"white",
+        padding:"15px",
+        borderRadius:"10px"
       }}>
 
         <img
-          src={gig.image || "https://picsum.photos/300/200"}
+          src={gig.image || fallback}
           style={{
             width:"100%",
-            height:"180px",
+            height:"200px",
             objectFit:"cover"
           }}
         />
 
-        <div style={{padding:"10px"}}>
+        <h3>{gig.title}</h3>
 
-          <h4 style={{color:"#333"}}>
-            {gig.title}
-          </h4>
+        <p>
+          {gig.desc || "No description"}
+        </p>
 
-          <p style={{color:"#777"}}>
-            {gig.desc}
-          </p>
-
-          <h3 style={{color:"#1dbf73"}}>
-            ₹{gig.price}
-          </h3>
-
-        </div>
+        <h4 style={{color:"#00ffc8"}}>
+          ₹{gig.price}
+        </h4>
 
       </div>
 
     </Link>
 
   );
-
 }
-
-export default GigCard;
