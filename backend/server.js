@@ -11,14 +11,10 @@ dotenv.config();
 
 const app = express();
 
-/* FIXED CORS CONFIGURATION */
+/* PERMANENT CORS FIX */
 app.use(cors({
-  origin: [
-    "https://fiverr-clone-81s74oaoy-ayushjha-sys-projects.vercel.app",
-    "http://localhost:5173"
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"]
 }));
 
 app.use(express.json());
